@@ -18,6 +18,15 @@
 
         <button type="button" onclick="submitForm()">Iniciar Sesión</button>
     </form>
+    <form id="registerForm">
+        <label for="newUsername">Nuevo Usuario:</label>
+        <input type="text" id="newUsername" name="newUsername" required>
+    
+        <label for="newPassword">Nueva Contraseña:</label>
+        <input type="password" id="newPassword" name="newPassword" required>
+    
+        <button type="button" onclick="registerUser()">Registrar</button>
+    </form>
 </div>
 
 <script src="script_login.js"></script>
