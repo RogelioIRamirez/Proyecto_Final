@@ -18,11 +18,24 @@ function registerUser() {
     if (newUsername === "" || newPassword === "") {
         alert("Por favor, completa todos los campos.");
     } else {
-        // Aquí puedes agregar la lógica para almacenar el nuevo usuario
-        // por ejemplo, podrías usar un array en memoria para este ejemplo
-        var newUser = { username: newUsername, password: newPassword };
-        users.push(newUser);
-
-        alert("Registro exitoso. Ahora puedes iniciar sesión.");
+        // Enviar los datos al servidor
+        fetch('http://localhost:3000/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username: newUsername, password: newPassword }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Registro exitoso. Ahora puedes iniciar sesión.");
+            } else {
+                alert("Error en el registro: " + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     }
 }
