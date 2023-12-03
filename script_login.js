@@ -33,11 +33,17 @@ function registerUser() {
             if (data.success) {
                 alert("Registro exitoso. Ahora puedes iniciar sesión.");
             } else {
-                alert("Error en el registro: " + data.message);
+                if (data.errorType === 'userExists') {
+                    alert("Error en el registro: El usuario ya existe.");
+                } else {
+                    alert("Error en el registro. Inténtalo de nuevo más tarde.");
+                }
             }
         })
         .catch(error => {
             console.error('Error:', error);
+            alert("Error en la solicitud al servidor. Inténtalo de nuevo más tarde.");
         });
+
     }
 }
