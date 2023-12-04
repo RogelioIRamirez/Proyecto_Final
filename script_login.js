@@ -37,11 +37,11 @@ function submitForm() {
 
 function enviarMensajeAKafka(mensaje) {
     // Enviar mensaje al servidor para que lo publique en Kafka
-    fetch('https://rogelioiramirez.github.io/Proyecto_Final/enviar-mensaje', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
+    fetch('http://localhost:3000/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
         body: JSON.stringify({ mensaje }),
     })
     .then(response => response.json())
@@ -95,11 +95,11 @@ function registerUser() {
 
 function enviarMensajeAKafkaNuevoUser(mensaje) {
     // Enviar mensaje al servidor para que lo publique en Kafka
-    fetch('https://rogelioiramirez.github.io/Proyecto_Final/enviar-mensaje', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
+    fetch('http://localhost:3000/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
         body: JSON.stringify({ mensaje }),
     })
     .then(response => response.json())
