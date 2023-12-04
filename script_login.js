@@ -19,6 +19,10 @@ function submitForm() {
         .then(data => {
             if (data.success) {
                 alert("Inicio de sesión exitoso. Redirigiendo a la encuesta...");
+                
+                // Enviar mensaje a Kafka
+                enviarMensajeAKafka(`Inicio de sesión exitoso para ${username}`);
+                
                 window.location.href = "main_page.html";
             } else {
                 alert("Error en el inicio de sesión: " + data.message);
@@ -30,6 +34,27 @@ function submitForm() {
         });
     }
 }
+
+function enviarMensajeAKafka(mensaje) {
+    // Enviar mensaje al servidor para que lo publique en Kafka
+    fetch('http://localhost:3000/enviar-mensaje', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ mensaje }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (!data.success) {
+            console.error("Error al enviar mensaje a Kafka:", data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
 
 function registerUser() {
     var newUsername = document.getElementById("newUsername").value;
