@@ -12,8 +12,11 @@ https://panel.000webhost.com/dashboard/proyectofinaltfconkafka/databases
 
 
 Integrantes 
-Rogelio Israel Ramirez Castro
-Aldo Guillermo Roman del Muro
-Emnauel Alejandro Gutierrez Romero
+Rogelio Israel Ramirez Castro. 
+
+Aldo Guillermo Roman del Muro.
+
+Emnauel Alejandro Gutierrez Romero.
+
 
 Gracias por visitar!!!!!!!
