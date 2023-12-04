@@ -7,9 +7,27 @@ function submitForm() {
     if (username === "" || password === "") {
         alert("Por favor, completa ambos campos.");
     } else {
-        // Aquí puedes redirigir al usuario a la página de la encuesta o realizar otras acciones.
-        alert("Inicio de sesión exitoso. Redirigiendo a la encuesta...");
-        window.location.href = "main_page.html";
+        // Enviar los datos al servidor para el inicio de sesión
+        fetch('http://localhost:3000/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Inicio de sesión exitoso. Redirigiendo a la encuesta...");
+                window.location.href = "main_page.html";
+            } else {
+                alert("Error en el inicio de sesión: " + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("Error en el inicio de sesión. Inténtalo de nuevo más tarde.");
+        });
     }
 }
 
