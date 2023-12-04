@@ -35,23 +35,41 @@ function submitForm() {
     }
 }
 
+const kafka = require('kafka-node');
+
+// Configuración para Kafka
+const kafkaClientOptions = { kafkaHost: 'localhost:9092' };
+const producer = new kafka.Producer(new kafka.KafkaClient(kafkaClientOptions));
+
+// Manejadores de eventos para el productor
+producer.on('ready', () => {
+    console.log('Productor de Kafka listo para enviar mensajes.');
+
+    // Llamada a la función para enviar mensajes
+    enviarMensajeAKafka('Hola, Kafka!');
+});
+
+producer.on('error', (err) => {
+    console.error('Error en el productor de Kafka:', err);
+});
+
+// Función para enviar mensajes a Kafka
 function enviarMensajeAKafka(mensaje) {
-    // Enviar mensaje al servidor para que lo publique en Kafka
-    fetch('http://localhost:3000/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        body: JSON.stringify({ mensaje }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (!data.success) {
-            console.error("Error al enviar mensaje a Kafka:", data.message);
+    const payloads = [
+        { topic: 'mi-topic', messages: mensaje },
+    ];
+
+    producer.send(payloads, (err, data) => {
+        if (err) {
+            console.error('Error al enviar mensaje a Kafka:', err);
+        } else {
+            console.log('Mensaje enviado a Kafka:', data);
         }
-    })
-    .catch(error => {
-        console.error('Error:', error);
+
+        // Cierra el productor después de enviar el mensaje
+        producer.close(() => {
+            console.log('Productor de Kafka cerrado.');
+        });
     });
 }
 
