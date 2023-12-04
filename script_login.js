@@ -37,7 +37,7 @@ function submitForm() {
 
 function enviarMensajeAKafka(mensaje) {
     // Enviar mensaje al servidor para que lo publique en Kafka
-    fetch('http://localhost:3000/enviar-mensaje', {
+    fetch('https://rogelioiramirez.github.io/Proyecto_Final/enviar-mensaje', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -75,6 +75,8 @@ function registerUser() {
         .then(data => {
             if (data.success) {
                 alert("Registro exitoso. Ahora puedes iniciar sesión.");
+                // Enviar mensaje a Kafka
+                enviarMensajeAKafkaNuevoUser(`Inicio de sesión exitoso para ${newUsername}`);
             } else {
                 if (data.errorType === 'userExists') {
                     alert("Error en el registro: El usuario ya existe.");
@@ -89,4 +91,24 @@ function registerUser() {
         });
 
     }
+}
+
+function enviarMensajeAKafkaNuevoUser(mensaje) {
+    // Enviar mensaje al servidor para que lo publique en Kafka
+    fetch('https://rogelioiramirez.github.io/Proyecto_Final/enviar-mensaje', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ mensaje }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (!data.success) {
+            console.error("Error al enviar mensaje a Kafka:", data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
